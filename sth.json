@@ -1,0 +1,101 @@
+
+    "Resources": {
+        "ApiGatewayRestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+                "Description": "API Gateway to access Auth Lambda funcion",
+                "Name": {
+                    "Fn::Sub": "${AWS::StackName}-api-gateway"
+                }
+            }
+        },
+        "ApiGatewayResource": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+                "ParentId": {
+                    "Fn::GetAtt": [
+                        "ApiGatewayRestApi",
+                        "RootResourceId"
+                    ]
+                },
+                "PathPart": "auth",
+                "RestApiId": {
+                    "Ref": "ApiGatewayRestApi"
+                }
+            }
+        },
+        "ApiGatewayMethod": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "POST",
+                "Integration": {
+                    "ConnectionType": "INTERNET",
+                    "Credentials": {
+                        "Fn::GetAtt": [
+                            "ApiGatewayIamRole",
+                            "Arn"
+                        ]
+                    },
+                    "IntegrationHttpMethod": "POST",
+                    "PassthroughBehavior": "WHEN_NO_MATCH",
+                    "TimeoutInMillis": 29000,
+                    "Type": "AWS_PROXY",
+                    "Uri": {
+                        "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations"
+                    }
+                },
+                "OperationName": "lambda",
+                "RestApiId": {
+                    "Ref": "ApiGatewayRestApi"
+                },
+                "ResourceId": {
+                    "Ref": "ApiGatewayResource"
+                }
+            }
+        },
+        "ApiGatewayResource": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+                "ParentId": {
+                    "Fn::GetAtt": [
+                        "ApiGatewayRestApi",
+                        "RootResourceId"
+                    ]
+                },
+                "PathPart": "oauth",
+                "RestApiId": {
+                    "Ref": "OauthApiGatewayRestApi"
+                }
+            }
+        },
+        "ApiGatewayMethod": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "POST",
+                "Integration": {
+                    "ConnectionType": "INTERNET",
+                    "Credentials": {
+                        "Fn::GetAtt": [
+                            "ApiGatewayIamRole",
+                            "Arn"
+                        ]
+                    },
+                    "IntegrationHttpMethod": "POST",
+                    "PassthroughBehavior": "WHEN_NO_MATCH",
+                    "TimeoutInMillis": 29000,
+                    "Type": "AWS_PROXY",
+                    "Uri": {
+                        "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations"
+                    }
+                },
+                "OperationName": "lambda",
+                "RestApiId": {
+                    "Ref": "OauthApiGatewayRestApi"
+                },
+                "ResourceId": {
+                    "Ref": "ApiGatewayResource"
+                }
+            }
+        },

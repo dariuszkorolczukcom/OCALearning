@@ -1,40 +1,26 @@
 package src.basic;
-
+import java.util.ArrayList;
+import java.util.Collection;
 class Examples {
-	public static void main(String...args) {
-		System.out.println("true&false: "+(true&false));
-		System.out.println("\ntrue&true: "+(true&true));
-		System.out.println("\ntrue&&false: "+(true&&false));
-		System.out.println("\ntrue&&true: "+(true&&true));
-		System.out.println("\ntrue|false: "+(true|false));
-		System.out.println("\ntrue|true: "+(true|true));
-		System.out.println("\nfalse||true: "+(false||true));
-		System.out.println("\nfalse||false: "+(false||false));
-		System.out.println("\ntrue^false: "+(true^false));
-		System.out.println("\ntrue^true: "+(true^true));
-		System.out.println("\nfalse^true: "+(false^true));
-		System.out.println("\nfalse^false: "+(false^false));
 
-		int a=0,b=0,c=0,d=0;
+	    public static void validateTillStringType(Collection<? super String> collection){
+	        //Wild card with Lower bound
+	        // Accept collection of objects of type string or SUPER-CLASS of String
+	    }
 
-		boolean e = a++==1&b++==1;
-		boolean f = c++==1&&d++==1;
-		System.out.println("boolean e = a++==1&b++==1\nboolean f = c++==1&&d++==1");
-		System.out.printf("a: %d b: %d c: %d d: %d \n bool e: %b bool f: %b\n\n",a,b,c,d,e,f);
-		a=0;b=0;c=0;d=0;
-		e = ++a==1&++b==1;
-		f = ++c==1&&++d==1;
-		System.out.println("boolean e = ++a==1&++b==1\nboolean f = ++c==1&&++d==1");
-		System.out.printf("a: %d b: %d c: %d d: %d \n bool e: %b bool f: %b\n\n",a,b,c,d,e,f);
-		a=0;b=0;c=0;d=0;
-		e = a++==1|b++==1;
-		f = c++==1||d++==1;
-		System.out.println("boolean e = a++==1|b++==1\nboolean f = c++==1||d++==1");
-		System.out.printf("a: %d b: %d c: %d d: %d \n bool e: %b bool f: %b\n\n",a,b,c,d,e,f);
-		a=0;b=0;c=0;d=0;
-		e = ++a==1|++b==1;
-		f = ++c==1||++d==1;
-		System.out.println("boolean e = ++a==1|++b==1\nboolean f = ++c==1||++d==1");
-		System.out.printf("a: %d b: %d c: %d d: %d \n bool e: %b bool f: %b\n\n",a,b,c,d,e,f);
-	}
+	    public static void validateStringTypes(Collection<? extends String> collection){
+	        //Wild card with Upper bound
+	        // Accept collection of objects of type string or SUB-CLASS of String
+	    }
+
+	    public static void main(String [] args){
+	        GenericsDemo.validateTillStringType(new ArrayList<Object>());//OK
+
+	//      GenericsDemo.validateTillStringType(new ArrayList<Integer>());//Error
+
+	//      GenericsDemo.validateStringTypes(new ArrayList<Object>());//Error
+
+	        GenericsDemo.validateStringTypes(new ArrayList<String>());//OK
+
+	    }
 }
